@@ -1,0 +1,19 @@
+name: dijkstra-visualization
+version: 0.1.0.0
+description: Dijkstra's Algorithm visualization with Haskell backend and Elm frontend
+
+dependencies:
+  - base >= 4.7 && < 5
+  - scotty
+  - wai-cors
+  - aeson
+  - containers
+  - text
+  - bytestring
+  - http-types
+  - wai
+
+executables:
+  server:
+    main: Server.hs
+    source-dirs: . 

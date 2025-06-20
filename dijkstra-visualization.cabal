@@ -1,0 +1,29 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.37.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           dijkstra-visualization
+version:        0.1.0.0
+description:    Dijkstra's Algorithm visualization with Haskell backend and Elm frontend
+build-type:     Simple
+
+executable server
+  main-is: Server.hs
+  other-modules:
+      Dijkstra
+      Paths_dijkstra_visualization
+  hs-source-dirs:
+      ./
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , http-types
+    , scotty
+    , text
+    , wai
+    , wai-cors
+  default-language: Haskell2010
