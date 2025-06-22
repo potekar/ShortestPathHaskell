@@ -20,7 +20,7 @@ instance FromJSON Edge
 data Node = Node { node :: Int, edges :: [Edge] } deriving (Show, Generic)
 instance FromJSON Node
 
--- DijkstraRequest now uses [Node] instead of Graph
+-- Using nodes
 data DijkstraRequest = DijkstraRequest
   { graph :: [Node]
   , start :: Int
@@ -31,7 +31,7 @@ instance FromJSON DijkstraRequest where
   parseJSON = withObject "DijkstraRequest" $ \v ->
     DijkstraRequest <$> v .: "graph" <*> v .: "start" <*> v .: "end"
 
--- Convert [Node] to Graph (Map Int [(Int, Int)])
+-- Convertion
 nodeListToGraph :: [Node] -> Graph
 nodeListToGraph = Map.fromList . map (\n -> (node n, map (\e -> (to e, weight e)) (edges n)))
 
@@ -46,18 +46,17 @@ instance ToJSON DijkstraStep
 main :: IO ()
 main = scotty 3000 $ do
     middleware logRequests
-    -- Enable CORS
     middleware $ cors $ const $ Just simpleCorsResourcePolicy
         { corsRequestHeaders = ["Content-Type"]
         , corsMethods = ["GET", "POST"]
         }
 
-    -- Serve static files
+
     get "/" $ file "elm/index.html"
     get "/elm.js" $ file "elm/elm.js"
     get "/style.css" $ file "elm/style.css"
 
-    -- API endpoint for Dijkstra's algorithm
+    -- API
     post "/api/shortest-path" $ do
         body <- body
         case decode body of
