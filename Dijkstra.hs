@@ -6,10 +6,10 @@ import qualified Data.Set as Set
 import Data.Maybe (fromMaybe)
 import GHC.Generics (Generic)
 
-
-type Graph = Map.Map Int [(Int, Int)]  -- Map from node to list of (neighbor, weight)
-type Distance = Map.Map Int Int        -- Map from node to distance
-type Previous = Map.Map Int Int        -- Map from node to previous node
+--Maps
+type Graph = Map.Map Int [(Int, Int)]  
+type Distance = Map.Map Int Int        
+type Previous = Map.Map Int Int        
 
 data DijkstraStep = DijkstraStep
   { current :: Int
@@ -17,15 +17,13 @@ data DijkstraStep = DijkstraStep
   , distances :: [(Int, Int)]
   } deriving (Show, Generic)
 
--- instance ToJSON DijkstraStep
 
--- New: Dijkstra with steps
--- Returns (final distances, previous, steps)
+
+
 dijkstraWithSteps :: Graph -> Int -> Maybe Int -> (Distance, Previous, [DijkstraStep])
 dijkstraWithSteps graph startNode endNode = dijkstraSteps' graph startNode endNode (Map.singleton startNode 0) Map.empty Set.empty []
 
--- Helper for dijkstraWithSteps
--- Accumulates steps as it goes
+-- Helper 
 dijkstraSteps' :: Graph -> Int -> Maybe Int -> Distance -> Previous -> Set.Set Int -> [DijkstraStep] -> (Distance, Previous, [DijkstraStep])
 dijkstraSteps' graph current endNode distances previous visited steps
     | Set.member current visited = (distances, previous, steps)
@@ -45,7 +43,7 @@ dijkstraSteps' graph current endNode distances previous visited steps
             , distances = Map.toList newDistances
             }
 
--- Original Dijkstra (for compatibility)
+-- Original 
 dijkstra :: Graph -> Int -> (Distance, Previous)
 dijkstra graph start = dijkstra' graph start (Map.singleton start 0) Map.empty Set.empty
 
@@ -80,7 +78,7 @@ findNextNode distances visited =
             | dist < minDist = (node, dist)
             | otherwise = (minNode, minDist)
 
--- Helper function to get the shortest path
+-- Helper 
 getShortestPath :: Previous -> Int -> Int -> [Int]
 getShortestPath previous start end = reverse $ getPath end
     where
@@ -88,7 +86,7 @@ getShortestPath previous start end = reverse $ getPath end
             | node == start = [start]
             | otherwise = node : getPath (fromMaybe start (Map.lookup node previous))
 
--- Example graph
+
 exampleGraph :: Graph
 exampleGraph = Map.fromList [
     (1, [(2, 7), (3, 9), (6, 14)]),
