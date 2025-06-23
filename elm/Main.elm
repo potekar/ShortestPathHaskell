@@ -254,24 +254,24 @@ drawNodes nodePositions visitedNodes currentNode shortestPath animationFinished 
                 isCurrent = node == currentNode
                 isOnPath = List.member node shortestPath
                 
-                -- Determine colors based on animation state
+                
                 fillColor =
                     if isCurrent then
-                        "#ffeb3b" -- Yellow for current node
+                        "#ffeb3b" -- Yellow
                     else if isVisited then
-                        "#90caf9" -- Light blue for visited nodes
+                        "#90caf9" -- Light blue
                     else
-                        "white"    -- Default white
+                        "white"    
 
                 strokeColor =
                     if animationFinished && isOnPath then
-                        "green"    -- Green for shortest path nodes (only when animation finished)
+                        "green"    -- Shortest path
                     else if isCurrent then
-                        "#fbc02d" -- Darker yellow for current node stroke
+                        "#fbc02d" -- Darker yellow 
                     else if isVisited then
-                        "#1976d2" -- Darker blue for visited node stroke
+                        "#1976d2" -- Darker blue 
                     else
-                        "black"    -- Default black
+                        "black"    
 
                 strokeWidth =
                     if animationFinished && isOnPath then
